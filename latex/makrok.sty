@@ -1,0 +1,62 @@
+% Alap karakterkodolasi, elvalasztasi, font dolgok
+\usepackage[magyar]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{t1enc}
+
+
+% Hiperhivatkozasokhoz
+\usepackage{hyperref}
+
+% Abrak betoltesehez
+\usepackage{graphicx}
+\newcommand{\Abra}[3]
+{
+ \begin{figure}[hptb]
+    \begin{center}
+     \includegraphics[#3]{Kepek/#1.jpg}
+     \caption{#2}
+      \label{fig_#1}
+    \end{center}
+  \end{figure}
+}
+
+% Tablazatokhoz
+%\usepackage{multirow}
+%\usepackage{longtable}
+%\newcommand{\Tablazat}[4]
+%{
+ % \begin{table}[hptb]
+ %   \begin{center}
+  %    \begin{tabular}{#3}
+   %     #4
+    %  \end{tabular}
+     % \caption{\protect #2}
+      %\label{tab_#1}      
+    %\end{center}
+  %\end{table} 
+%}
+
+% Extra matematikai dolgok
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{chngcntr}
+\counterwithout{equation}{chapter}
+
+
+% sorkoz, margok, stb allitasa
+\usepackage{setspace}
+\linespread{1.2}
+\usepackage[top=1.08in, bottom=0.9in, left=0.9in, right=0.9in]{geometry}
+
+ 
+
+
+
+
+
+% todo
+\usepackage[usenames,dvipsnames]{color}
+\newcommand{\todo}[1]{\textcolor{red}{TODO: #1}}
+
+
+

@@ -1,0 +1,12 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: gepi_latas.aux
+The style file: unsrt.bst
+I couldn't open database file gepi_latas.bib
+---line 35 of file gepi_latas.aux
+ : \bibdata{gepi_latas
+ :                    }
+I'm skipping whatever remains of this command
+I found no database files---while reading file gepi_latas.aux
+Warning--I didn't find a database entry for "python"
+Warning--I didn't find a database entry for "opencv"
+Warning--I didn't find a database entry for "numpy"
+(There were 2 error messages)

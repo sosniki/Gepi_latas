@@ -4,7 +4,7 @@
 
 import cv2
 import numpy as np
-#import matplotlib.pyplot as plt
+import smtplib
 
 #####################################################################
 #KÉPEK BEOLVASÁSA
@@ -38,20 +38,20 @@ matches = bruce_force.match(descriptors1,descriptors2)
 matches = sorted(matches, key = lambda x:x.distance)
 
 # az első tíz találat kirajzolása
-img3 = cv2.drawMatches(img1,keypoints1,img2,keypoints2,matches[:10], None , flags=6)
+img3 = cv2.drawMatches(img1,keypoints1,img2,keypoints2,matches[:100], None , flags=6)
 
 #találatok ábrázolása
 cv2.imshow('Jellemzopontok',img3)
 cv2.waitKey(0)
 
 #####################################################################
-#ÉRMÉK ÖSSZESZÁMOLÁSA
+#FOLTDETEKTÁLÁS, ÉRMÉK ÖSSZESZÁMOLÁSA
 #####################################################################
 
 #kép méretezés
 im_m= img1[0:600, 0:800] 
 
-# Otsu's thresholding after Gaussian filtering 
+#Gauss szűrő után "Otsu treshold"-al kép bináris színekkel
 blur = cv2.GaussianBlur(im_m,(25,25),0)
 (thresh, im) = cv2.threshold(blur, 55, 130, cv2.THRESH_BINARY_INV )
 
@@ -71,7 +71,7 @@ params.filterByArea = True
 params.minArea = 1000
 params.maxArea = 150000
 
-params.filterByCircularity = False
+params.filterByCircularity = True
 params.minCircularity = 0.5
 
 params.filterByConvexity = False
@@ -101,3 +101,14 @@ cv2.destroyAllWindows()
 # jellemző pontok alapján a foltok összeszámolása
 s = len(keypoints)
 print('Pénzérmék száma: ', s)
+i = str(s)
+#####################################################################
+#EMAIL KÜLDÉSE AZ EREDMÉNYRŐL
+#####################################################################
+
+server = smtplib.SMTP('smtp.gmail.com', 587)
+server.starttls()
+server.login("pythonteszteles@gmail.com", "Teszt123")
+msg ="A kepen " + i + " db penzerme talalhato."
+server.sendmail("pythonteszteles@gmail.com", "nikolettsos@gmail.com@gmail.com", msg)
+server.quit()
