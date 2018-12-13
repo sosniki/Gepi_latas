@@ -15,7 +15,6 @@ img1= cv2.imread('forintermek.png')
 
 # a keresett érme a képen
 img2 = cv2.imread('letoltes.png')
-img4 = cv2.imread('ketszazas2.png')
 
 #####################################################################
 #MINTAKERESÉS
@@ -38,7 +37,7 @@ matches = bruce_force.match(descriptors1,descriptors2)
 matches = sorted(matches, key = lambda x:x.distance)
 
 # az első tíz találat kirajzolása
-img3 = cv2.drawMatches(img1,keypoints1,img2,keypoints2,matches[:100], None , flags=6)
+img3 = cv2.drawMatches(img1,keypoints1,img2,keypoints2,matches[:10], None , flags=6)
 
 #találatok ábrázolása
 cv2.imshow('Jellemzopontok',img3)
@@ -52,13 +51,13 @@ cv2.waitKey(0)
 im_m= img1[0:600, 0:800] 
 
 #Gauss szűrő után "Otsu treshold"-al kép bináris színekkel
-blur = cv2.GaussianBlur(im_m,(25,25),0)
-(thresh, im) = cv2.threshold(blur, 55, 130, cv2.THRESH_BINARY_INV )
+gauss = cv2.GaussianBlur(im_m,(25,25),0)
+(thresh, im) = cv2.threshold(gauss, 55, 130, cv2.THRESH_BINARY_INV )#fehér háttér esetén _INV nélkül
 
 # erózió és dilatáció 
 K = np.array([[0,1,0],[1,1,1],[0,1,0]])
-Id_erozio=cv2.erode(im,K.astype(np.uint8),iterations=1)#erózió
-Id_dilatacioId_erozio=cv2.erode(Id_erozio,K.astype(np.uint8),iterations=1)
+erozio = cv2.erode(im,K.astype(np.uint8),iterations=1)
+dilatacio = cv2.erode(erozio,K.astype(np.uint8),iterations=1)
 
 # foltdetektáló paramétereinek megadása
 params = cv2.SimpleBlobDetector_Params()
@@ -88,10 +87,10 @@ else :
     detector = cv2.SimpleBlobDetector_create(params)
 
 #jellemzőpontok megadása
-keypoints = detector.detect(Id_dilatacioId_erozio)
+keypoints = detector.detect(dilatacio)
 
 #a jellemzőpontok alapján a foltok bejelölése a vizsgált képen
-im_key = cv2.drawKeypoints(Id_dilatacioId_erozio, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+im_key = cv2.drawKeypoints(dilatacio, keypoints, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
 # a végeredmény megjelenítése
 cv2.imshow("Penzermek", im_key)
